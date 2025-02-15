@@ -1,0 +1,276 @@
+---
+title: Data Cleaning Process
+date: "2025-02-11"
+editor: 
+  markdown: 
+    wrap: 72
+execute: 
+  warning: false
+  freeze: 'auto'
+  include: true
+---
+
+# Data Cleaning Pipeline
+
+This page outlines the data preparation process for COVID-19 analysis in
+the United States.
+
+## 1. Initial Setup
+
+```{r}
+#| echo: false
+# Environment cleanup and package loading
+rm(list = ls())
+graphics.off()
+
+library(tidyverse)
+library(lubridate)
+library(cowplot)
+library(rio)
+library(janitor)
+library(tidystringdist)
+library(zoo)
+
+# after downloading the funcs.R file, uncomment the code below before running it.
+source("./funcs.R")
+
+```
+
+**Actions:**
+
+-   Clear existing environment and graphics
+
+-   Load essential packages:
+
+    -    tidyverse for data manipulation
+
+    -   lubridate for date handling
+
+    -   rio for data import
+
+    -    janitor for column cleaning
+
+-    Load custom utility functions
+
+## 2. Data Ingestion
+
+### Import Covid-19 data...
+
+```{r}
+
+# import data using custom functions:
+path.origin <- "./data/" # path to data directory
+
+data.dir.name.COVID19 <- list.files(path = path.origin) %>% 
+  str_subset("^csse_") # name of COVID-19 data directory
+
+
+csse_data <- tibble(directory = paste0(path.origin, "/", data.dir.name.COVID19),   # main directory
+                     file = list.files(path = directory)) %>%                       # list of .csv file
+  mutate(path = str_c(directory, file, sep = "/")) %>%                              # create path string for import
+  mutate(data = map(.x = path,                                                      # import files with readr & map
+                    .f = function(path){read_csv(path,
+                                                  col_types = cols(.default = "c")) # all columns parsed as "character" for simplicity
+                    })) %>%   
+  mutate(date = str_remove(string = file, pattern = ".csv"),
+         date = mdy(date)) %>% 
+  select(date, data) %>% 
+  unnest(cols = "data") %>% 
+  clean_names()
+
+df_covid19 <- csse_data
+df_covid19 <- df_covid19 %>% 
+  mutate(last_update = ymd_hms(last_update)) %>% 
+  mutate_at(.tbl = .,
+            .vars = setdiff(colnames(.)[5:ncol(.)], "iso3"),
+            .funs = as.numeric)
+
+
+```
+
+**Processing Steps:**
+
+1.  Identify CSSE COVID-19 data directory
+
+2.  Import multiple daily reports as character data
+
+3.  Extract dates from filenames
+
+4.  Un-nest and combine daily reports + Standardize column names
+
+### Economic Data (GDP)
+
+```{r}
+gdp_dir_name <- list.files(path = path.origin) %>% 
+  str_subset("GDP")
+
+df_gdp <- rio::import(file = paste0(path.origin,
+                                    gdp_dir_name),
+                      sheet = "clean data") %>% 
+  as_tibble() %>% 
+  clean_names()
+
+# selecting columns and cleaning nominal gdp 2020 and 2019
+df_gdp <- df_gdp %>% 
+  select(state_or_territory,
+         gdp_nominal = nominal_gdp_2020,
+         gdp_per_capita = gdp_per_capita_2020) %>% 
+  # column conversion:
+  mutate_all(.funs = str_remove_all,
+             pattern = ",") %>% 
+  mutate_all(
+    .funs = str_remove_all,
+    pattern = "\\$") %>% 
+  mutate_at(.vars = colnames(.)[2:3],
+            .funs = as.numeric)
+
+```
+
+**Key Transformations:**
+
+-   Remove currency symbols and commas
+
+-   Convert to numeric format
+
+-   Select relevant economic indicators
+
+### Population Data
+
+```{r}
+pop_dir_name <- list.files(path = path.origin) %>% 
+  str_subset("Pop")
+
+df_pop <- rio::import(file = paste0(path.origin,
+                                    pop_dir_name),
+                      sheet = "data") %>% 
+  as_tibble() %>% 
+  clean_names()
+
+
+## column selection and cleaning:
+df_pop <- df_pop %>% 
+  select(state = name,
+         pop = pop_2019)
+```
+
+**Cleaning Actions:**
+
+-   Rename columns for consistency
+
+-   Select 2019 population estimates
+
+### Government Response Data
+
+```{r}
+# Step 1d: Get COVID-response_data:
+covid_response_dir_name <-
+  list.files(path = path.origin) %>% 
+  str_subset("US_latest")
+
+df_covid19_response <- read_csv(file = paste0(path.origin,
+                                        covid_response_dir_name),
+                                col_types = cols(.default = "c")) %>% 
+  as_tibble() %>% 
+  clean_names()
+
+# column_selection and cleaning:
+df_covid19_response <- df_covid19_response %>% 
+  mutate(date = ymd(date)) %>% 
+  select(state = region_name,
+         date,
+         contains("index")) %>% 
+  mutate_at(.tbl = .,
+            .vars = colnames(.)[3:ncol(.)],
+            .funs = as.numeric)
+
+```
+
+**Key Features:** + Parse date column + Convert policy indices to
+numeric + Standardize state column name
+
+### Vaccination Data
+
+```{r}
+# Step 1e: Import Covid Vaccination Data:
+vaccine_dir_name <-
+  list.files(path = path.origin) %>% 
+  str_subset("vaccine")
+
+df_vaccine <- read_csv(file = paste0(path.origin,
+                                           vaccine_dir_name),
+                             col_types = cols(.default = "c")) %>% 
+  as_tibble() %>% 
+  clean_names() %>% 
+  # column selection and cleaning:
+  mutate(day = ymd(day),
+         daily_vaccinations = as.numeric(daily_vaccinations)) %>% 
+  select(state = entity,
+         date = day,
+         vaccinations = daily_vaccinations)
+
+
+```
+
+**Processing:**
+
+-   Convert date column
+
+-   Rename vaccination metric + Ensure numeric vaccination counts
+
+## 3. Data Harmonization
+
+### State Name Standardization
+
+```{r}
+df_covid19 <- renameState(df_covid19)
+df_covid19_response <- renameState(df_covid19_response)
+df_gdp <- renameState(df_gdp)
+df_pop <- renameState(df_pop)
+df_vaccine <- renameState(df_vaccine)
+
+```
+
+**Actions:**
+
+-   Apply `renameState` custom function to all datasets
+
+-   Ensure consistent "state" column name across sources
+
+**Datasets Overview:**
+
+The analysis utilizes 5 primary datasets:
+
+-   `df_covid19:` Daily COVID-19 metrics (confirmed cases, deaths,
+    recovered, active)
+
+-   `df_gdp`: State-level GDP data
+
+-   `df_pop`: Population estimates
+
+-   `df_covid19_response`: Government response metrics (stringency
+    index)
+
+-   `df_vaccine`: Vaccination data
+
+## Export Cleaned Data
+
+At the time of documenting, I exported the unmerged data, if you
+would like to perform some analysis on your own with it. You should
+be able to see it in my github repo as \`df.main.csv\` file.
+
+```{r}
+
+dir = "./exported-data"
+
+if (!dir.exists(dir))
+{
+  dir.create(dir)
+}
+
+df_covid19 <- write.csv(x = df_covid19, file = paste0(dir, "/", "df-covid19.csv"))
+df_covid19_response <- write.csv(x = df_covid19_response, file=paste0(dir, "/", "df-covid19-response.csv"))
+df_gdp <- write.csv(x = df_gdp, file = paste0(dir, "/", "df-gdp.csv"))
+df_pop <- write.csv(x = df_pop, file = paste0(dir, "/", "df-pop.csv"))
+df_vaccine <- write.csv(x = df_vaccine, file = paste0(dir, "/", "df-vaccine.csv"))
+
+```

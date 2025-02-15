@@ -1,0 +1,23 @@
+{
+  "home.qmd": {
+    "home.html": "d5558ff4"
+  },
+  "data-cleaning/index.md": {
+    "index.html": "fca52d08"
+  },
+  "data-cleaning.qmd": {
+    "data-cleaning.html": "e7fab412",
+    "data-cleaning.md": "c1751d0f"
+  },
+  "eda.qmd": {
+    "eda.html": "58527b15",
+    "eda.md": "e26163f7"
+  },
+  "funcs.qmd": {
+    "funcs.html": "d1bcde24",
+    "funcs.md": "cc703e00"
+  },
+  "about.qmd": {
+    "about.html": "fbd31f25"
+  }
+}
