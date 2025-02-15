@@ -1,12 +1,4 @@
 {
-  "name": "my-quarto-website",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "quarto render"
-  },
   "dependencies": {
-    "quarto-cli": "^1.0.0"
+    "@quarto/netlify-plugin-quarto": "^0.0.5"
   }
-}

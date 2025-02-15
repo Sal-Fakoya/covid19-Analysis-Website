@@ -5,5 +5,5 @@
 [build.environment]
   QUARTO_VERSION = "latest"
 
-[build.lifecycle]
-  onBuild = "npm install -g quarto-cli && quarto render"
+[[plugins]]
+package = "@quarto/netlify-plugin-quarto"
