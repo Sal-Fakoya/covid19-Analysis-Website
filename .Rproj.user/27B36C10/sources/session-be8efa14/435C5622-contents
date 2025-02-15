@@ -1,6 +1,9 @@
 [build]
   publish = "_site"
   command = "quarto render"
-  
-[[plugins]]
-package = "@quarto/netlify-plugin-quarto"
+
+[build.environment]
+  QUARTO_VERSION = "latest"
+
+[build.lifecycle]
+  onBuild = "npm install -g quarto-cli && quarto render"
