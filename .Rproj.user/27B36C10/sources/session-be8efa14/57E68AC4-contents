@@ -1,6 +1,0 @@
-[build]
-  publish = "_site"
-  command = "curl -sSL https://www.quarto.org/docs/download/cli/linux/quarto-linux-amd64.sh | bash && quarto render"
-
-[build.environment]
-  QUARTO_VERSION = "latest"

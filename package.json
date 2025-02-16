@@ -6,7 +6,5 @@
   "scripts": {
     "build": "quarto render"
   },
-  "dependencies": {
-    "quarto": "^1.3.433"  // Use the latest stable version
-  }
+  "dependencies": {}
 }
