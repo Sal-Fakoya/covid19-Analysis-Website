@@ -18,7 +18,6 @@ the United States.
 ## 1. Initial Setup
 
 ```{r}
-#| echo: false
 # Environment cleanup and package loading
 rm(list = ls())
 graphics.off()
@@ -42,15 +41,15 @@ source("./funcs.R")
 
 -   Load essential packages:
 
-    -    tidyverse for data manipulation
+    -   tidyverse for data manipulation
 
     -   lubridate for date handling
 
     -   rio for data import
 
-    -    janitor for column cleaning
+    -   janitor for column cleaning
 
--    Load custom utility functions
+-   Load custom utility functions
 
 ## 2. Data Ingestion
 
@@ -254,9 +253,9 @@ The analysis utilizes 5 primary datasets:
 
 ## Export Cleaned Data
 
-At the time of documenting, I exported the unmerged data, if you
-would like to perform some analysis on your own with it. You should
-be able to see it in my github repo as \`df.main.csv\` file.
+At the time of documenting, I exported the unmerged data, if you would
+like to perform some analysis on your own with it. You should be able to
+see it in my github repo as \`df.main.csv\` file.
 
 ```{r}
 

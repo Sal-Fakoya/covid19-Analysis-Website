@@ -2,28 +2,34 @@ project:
   type: website
 
 website:
-  title: "today"
+  title: "Covid-19 EDA with R"
   navbar:
     left:
       - href: about.qmd
-        text: About
+        text: Home
+      - text: Get Started
+        menu:
+          - href: funcs.qmd
+            text: Functions
+          - href: data-cleaning.qmd
+            text: Data Cleaning
+          - href: eda.qmd
+            text: EDA Process
     right:
-      - href: funcs.qmd
-        text: Functions
-      - href: data-cleaning.qmd
-        text: Data Cleaning
-      - href: eda.qmd
-        text: EDA Process
-      
-      
+      - icon: github
+        href: https://github.com/Sal-Fakoya/covid19-Analysis-Website/tree/master
+      - icon: linkedin
+        href: https://www.linkedin.com/in/salamot-fakoya-650325224/
+
 format:
   html:
-    code-fold: true
+    code-fold: show
+    code-overflow: wrap
     theme:
       light: flatly
       dark: darkly
-    css: styles.css
     toc: true
+      
 
 execute: 
   warning: false

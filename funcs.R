@@ -26,7 +26,7 @@ countNA <- function(df) {
     pivot_longer(cols = everything(), names_to = "col", values_to = "NAs") %>%
     mutate(NA_perc = round(NAs / nrow(df) * 100, 2))
   
-  print(df_na_count)
+
   
   # Absolute NA count plot
   p1 <- df_na_count %>%
@@ -49,7 +49,7 @@ countNA <- function(df) {
     scale_x_discrete(labels = function(x) str_trunc(x, width = 12, ellipsis = "...")) +
     geom_text(aes(label = paste0(NA_perc, "%")), vjust = 0)
   
-  plot_grid(p1, p2, nrow = 2)
+  return(plot_grid(p1, p2, nrow = 2))
 }
 
 
@@ -66,7 +66,6 @@ checkTimeSpan <- function(df)
               min_date = min(date),
               max_date = max(date),
               date_range = max_date - min_date)
-  
   print(table_count)
   
   # show distinct dates count for each state:
@@ -82,7 +81,7 @@ checkTimeSpan <- function(df)
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 90))
   
-  print(p1)
+  return(p1)
   
 }
 
@@ -126,9 +125,6 @@ matchStates <- function(states_base = states_list,
     filter(rank == 1) %>% 
     select(states_base, {{ col_name }} := state)
   
-  print(t1)
-  
-  
   # t2 is an easier fix...
   t2 <- tidy_stringdist(df = states_comb,
                         v1 = states_base,
@@ -166,8 +162,6 @@ plotConfirmedCasesTotal <- function(data = df.main, region.group)
     ggtitle(paste("Infected Cases /", region.group, sep = " ")) +
     theme_minimal()
   
-  print(p11)
-  
   ## confirmed cases relative count:
   p21 <- plot_data %>% 
     ggplot(mapping = aes(x = date,
@@ -181,9 +175,7 @@ plotConfirmedCasesTotal <- function(data = df.main, region.group)
     ylab("Percentage(%) of Confirmed cases total") +
     ggtitle(paste("Infected Cases /", region.group, sep = " ")) +
     theme_minimal()
-  
-  print(p21)
-  
+
   
   # death cases absolute count
   p12 <- plot_data %>% 
@@ -199,7 +191,6 @@ plotConfirmedCasesTotal <- function(data = df.main, region.group)
     ggtitle(paste("Death /", region.group, sep = " ")) +
     theme_minimal()
   
-  print(p12)
   
   ## confirmed cases relative count:
   p22 <- plot_data %>% 
@@ -215,7 +206,6 @@ plotConfirmedCasesTotal <- function(data = df.main, region.group)
     ggtitle(paste("Death /", region.group, sep = " ")) +
     theme_minimal()
   
-  print(p22)
   
   plot <- plot_grid(p11, p12, p21, p22, nrow = 2, ncol = 2)
   
@@ -232,7 +222,7 @@ plotConfirmedCasesTotal <- function(data = df.main, region.group)
          width = 30, height = 20, 
          units = "cm",
          dpi = 1200)
-  
+  return (plot)
 }
 
 
@@ -282,6 +272,8 @@ plot7DayAverage <- function(data = df.main, region.group)
          plot = plot,
          width = 35, height = 25, units = "cm",
          dpi = 1200)
+  
+  return(plot)
     
 }
 

@@ -8,7 +8,8 @@ editor:
 execute: 
   warning: false
   freeze: 'auto'
-  include: true
+  results: "hide"
+  fig.show: "hide"
 ---
 
 # Data Cleaning Pipeline
@@ -24,7 +25,7 @@ getting there, and I will expand more on that in the sections below.
 ## 1. Initial Setup
 
 ```{r}
-#| echo: false
+#| include: true
 # Environment cleanup and package loading
 rm(list = ls())
 graphics.off()
@@ -113,9 +114,9 @@ Ensured consistent state naming across datasets using fuzzy string
 matching:
 
 ```{r}
-
+#| fig.show: 'hide'
 ## national level:
-df_covid19 %>% 
+plot <- df_covid19 %>% 
   select(state, date, confirmed:active) %>% 
   # convert from long to wide:
   pivot_longer(data =.,
@@ -231,7 +232,7 @@ df_main <- df_states %>%
 
 
 ## cehck:
-df_main %>% 
+count_states_base <- df_main %>% 
   count(states_base) %>% as.data.frame()
 
 df_main <- df_main %>%
@@ -325,16 +326,16 @@ df.main <- df_joined
 ```{r}
 
 ## check for missing data for non-vaccination data:
-df.main %>% 
+missing_conf_total <- df.main %>% 
   filter(is.na(confirmed_total)) %>%  # to check for missing values
   nrow()  # count the number of rows for missing values
 
-df.main %>% 
+missing_deaths_total <- df.main %>% 
   filter(is.na(deaths_total)) %>%  # to check for missing values
   nrow() 
 
 # Get vaccination starting date:
-df.main %>% 
+started_date_vacc <- df.main %>% 
   filter(is.na(daily_vacc_doses)) %>% nrow()
 # There are 14050 missing data for vaccination doses.
 
@@ -488,11 +489,9 @@ region_group <- df_regionGroup %>%
 
 #plotConfirmedCasesTotal(region.group = "Northeast - group 1")  
 
-## Plot for each region and group:
-region_group
+plot <- map(.x = region_group, .f = ~plotConfirmedCasesTotal(region.group = .x))
 
-map(.x = region_group, .f = ~plotConfirmedCasesTotal(region.group = .x))
-
+print(plot)
 
 ```
 
@@ -632,6 +631,7 @@ p1 <- df.main %>%
   scale_fill_gradient(low = "white", high = "black")
 
 plot <- plot_grid(p1, p2, nrow = 2)
+print(plot)
 
 # export plot:
 ggsave(filename = 
@@ -663,7 +663,7 @@ which will help us realize the *need* for a moving average!
 
 ```{r}
 
-df.main %>% 
+plot <- df.main %>% 
   group_by(state, date) %>% 
   arrange(state, date) %>% 
   mutate_at(.tbl = .,
@@ -679,7 +679,7 @@ df.main %>%
   geom_line(show.legend = F) + 
   facet_wrap(region ~ ., scales = "free")
 
-
+print(plot)
 
 ```
 
@@ -696,17 +696,11 @@ df.main %>%
 library(zoo)
 
 df.main <- df.main %>% 
+  group_by(state, date) %>% 
   arrange(state, date) %>% 
-  group_by(state) %>% 
-  mutate( across( .cols = c(confirmed_daily_cases, death_daily_cases),
-                  ~ rollapply(data = ., width = 7, FUN = mean, fill = NA, 
-                              align = "right", na.rm = TRUE),
-      .names = "{.col} 7d Avg")) %>% 
-  ungroup()
-
-
-
-
+  mutate_at(.tbl = .,
+            .vars = c("confirmed_daily_cases", "death_daily_cases"),
+            .funs = function(x){ifelse(is.na(x), 0, x)})
 
 
 df.main <- df.main %>% 
@@ -718,33 +712,29 @@ df.main <- df.main %>%
       .names = "{.col} 7d Avg")) %>% 
   ungroup()
 
+df.main <- df.main %>% 
+  arrange(state, date) %>% 
+  group_by(state) %>% 
+  mutate( across( .cols = c(confirmed_daily_cases, death_daily_cases),
+                  ~ rollapply(data = ., width = 7, FUN = mean, fill = NA, 
+                              align = "right", na.rm = TRUE),
+      .names = "{.col} 7d Avg")) %>% 
+  ungroup()
+
 # data validation 
-df.main %>% 
+validate_dailyCases <- df.main %>% 
   filter(is.na(`confirmed_daily_cases 7d Avg`)) %>% 
   select(`confirmed_daily_cases 7d Avg`) %>% 
   nrow()
 
-df.main %>% 
+validate_deaths <- df.main %>% 
   filter(is.na(`death_daily_cases 7d Avg`)) %>% 
   select(`death_daily_cases 7d Avg`) %>% 
   nrow()
 
-
-
-
-# Data validation here: check for missing values
-df.main %>% 
-  filter(is.na(`confirmed_daily_cases 7d Avg`)) %>% 
-  select(`confirmed_daily_cases 7d Avg`) %>% 
-  nrow()
-
-df.main %>% 
-  filter(is.na(`death_daily_cases 7d Avg`)) %>% 
-  select(`death_daily_cases 7d Avg`) %>% 
-  nrow()
 
 # Plot for each region:
-df.main %>% 
+plot1 <- df.main %>% 
   pivot_longer(data = .,
                cols =
                  c(`confirmed_daily_cases 7d Avg`, `death_daily_cases 7d Avg`),
@@ -757,22 +747,19 @@ df.main %>%
   scale_fill_viridis_d() +
   facet_wrap(region ~ ., scales = "free")
 
+print(plot1)
+
 # Plot:
-map(.x = region_group, 
+plot <- map(.x = region_group, 
     .f = ~ plot7DayAverage(region.group = .x))
 
-
+print(plot)
 ```
 
 **Features:**
 
 -   We added a 7 day moving average columns for the
     `confirmed_daily_cases` and `death_daily_cases` to the `df.main`
-
--   Then we did data validation to check for missing values in the
-    moving averages. We should expect No missing values in the moving
-    average, because the essence of the moving average is to smooth out
-    the jumps in the time series.
 
 -   The plot returned from the code block should show the smoothed time
     series for the pandemic dynamics.
@@ -812,6 +799,8 @@ ggsave(filename = filename,
        width = 35, height = 25, units = "cm",
        dpi = 1200)
 
+print(plot)
+
 ```
 
 **Features:**
@@ -823,9 +812,9 @@ ggsave(filename = filename,
 ## Question 5: Does vaccination help fighting the COVID-19 pandemic? i.e does vaccination help decrease covid-19 confirmed cases and death toll?
 
 ```{r}
-map(.x = region_group,
+plot <- map(.x = region_group,
     .f = ~ plot_vaccineDosesTotal_7DayAVg(region.group = .x))
-
+print(plot)
 
 ```
 
@@ -861,7 +850,7 @@ variables <- c("confirmed_total", "deaths_total", "vaccine_doses_total")
 plots <- map(variables, ~ plotCovid19Map_overTime(df.main, .x))
 
 
-
+print(plots)
 
 ```
 
@@ -895,7 +884,7 @@ plots <- map("stringency_index_for_display",
              ~ plotCovid19Map_overTime(df.main, .x))
 
 
-
+print(plots)
 ```
 
 ## Question 7: How each state is doing on a state level: How selected states are coping with the pandemic over time?

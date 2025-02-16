@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>My Website – today</title>
+<title>about – Covid-19 EDA with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -39,8 +39,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f3c2ea88cadbcfb37ba28ffa2c97cfc1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ae2d0dcda2edce4ab590422bb373b64f.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-7d6694c7b3d8f5ecf9ec986835a4b683.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-3d3e9f5edd0362804af8ca21528937ae.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,7 +70,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -81,7 +80,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">today</span>
+    <span class="navbar-title">Covid-19 EDA with R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -92,21 +91,38 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link active" href="./about.html" aria-current="page"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="./funcs.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data-cleaning.html">
+ <span class="dropdown-text">Data Cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./eda.html">
+ <span class="dropdown-text">EDA Process</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./funcs.html"> 
-<span class="menu-text">Functions</span></a>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Sal-Fakoya/covid19-Analysis-Website/tree/master"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./data-cleaning.html"> 
-<span class="menu-text">Data Cleaning</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./eda.html"> 
-<span class="menu-text">EDA Process</span></a>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/salamot-fakoya-650325224/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -120,33 +136,116 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#get-started" id="toc-get-started" class="nav-link active" data-scroll-target="#get-started">Get Started</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#key-objectives" id="toc-key-objectives" class="nav-link" data-scroll-target="#key-objectives">Key Objectives</a></li>
+  </ul></li>
+  <li><a href="#tools-and-technologies" id="toc-tools-and-technologies" class="nav-link" data-scroll-target="#tools-and-technologies">Tools and Technologies</a></li>
+  <li><a href="#project-structure" id="toc-project-structure" class="nav-link" data-scroll-target="#project-structure">Project Structure</a>
+  <ul class="collapse">
+  <li><a href="#custom-functions" id="toc-custom-functions" class="nav-link" data-scroll-target="#custom-functions">1. Custom Functions</a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning">2. Data Cleaning</a></li>
+  <li><a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">3. Exploratory Data Analysis (EDA)</a></li>
+  </ul></li>
+  <li><a href="#how-to-use-this-documentation" id="toc-how-to-use-this-documentation" class="nav-link" data-scroll-target="#how-to-use-this-documentation">How to Use This Documentation</a></li>
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">My Website</h1>
-</div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
+<section id="get-started" class="level2">
+<h2 class="anchored" data-anchor-id="get-started">Get Started</h2>
+<p>To explore the analysis in detail, navigate to the respective sections:</p>
+<ul>
+<li><p><a href="./funcs.html">Custom Functions</a></p></li>
+<li><p><a href="./data-cleaning.html">Data Cleaning</a></p></li>
+<li><p><a href="./eda.html">EDA Process</a></p></li>
+</ul>
+</section>
+<section id="project-overview" class="level2">
+<h2 class="anchored" data-anchor-id="project-overview">Project Overview</h2>
+<p>This project focuses on performing <strong>Exploratory Data Analysis (EDA)</strong> on COVID-19 data in the United States. The goal is to analyze trends in confirmed cases, deaths, vaccination rates, and government responses across different states and regions. By leveraging custom functions and a structured data pipeline, this project provides insights into the pandemic’s progression and its impact on various demographic and economic factors.</p>
+<section id="key-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="key-objectives">Key Objectives</h3>
+<ol type="1">
+<li><strong>Data Preparation</strong>: Standardize and clean COVID-19 datasets for analysis.</li>
+<li><strong>Exploratory Analysis</strong>: Visualize trends in infections, deaths, and vaccinations over time.</li>
+<li><strong>Advanced Insights</strong>: Investigate relationships between state wealth, population, and pandemic outcomes.</li>
+<li><strong>Government Response</strong>: Evaluate the effectiveness of government policies in mitigating the pandemic.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="tools-and-technologies" class="level2">
+<h2 class="anchored" data-anchor-id="tools-and-technologies">Tools and Technologies</h2>
+<p>This project is built using the following tools and libraries: - <strong>R</strong> for data analysis and visualization. - <strong>Tidyverse</strong> for data manipulation and cleaning. - <strong>Quarto</strong> for project documentation and reporting. - <strong>Custom Functions</strong> created for automating repetitive tasks and ensuring consistency in analysis.</p>
+<hr>
+</section>
+<section id="project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
+<p>The project is divided into three main sections, each documented in detail:</p>
+<section id="custom-functions" class="level3">
+<h3 class="anchored" data-anchor-id="custom-functions">1. Custom Functions</h3>
+<p>This section documents the custom functions developed for data preparation, analysis, and visualization. These functions are designed to handle tasks such as: - Standardizing state names across datasets. - Analyzing missing values and time spans. - Generating visualizations for confirmed cases, deaths, and vaccination trends.</p>
+<p><a href="./funcs.html">View Custom Functions Documentation</a></p>
+</section>
+<section id="data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning">2. Data Cleaning</h3>
+<p>This section outlines the data cleaning pipeline, including: - Ingestion and standardization of COVID-19 datasets. - Handling missing values and inconsistencies. - Merging datasets to create a unified analysis-ready dataset.</p>
+<p><a href="./data-cleaning.html">View Data Cleaning Documentation</a></p>
+</section>
+<section id="exploratory-data-analysis-eda" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-data-analysis-eda">3. Exploratory Data Analysis (EDA)</h3>
+<p>This section details the EDA process, including: - Visualizing trends in infections, deaths, and vaccinations. - Investigating relationships between state wealth, population, and pandemic outcomes. - Evaluating the impact of government responses on pandemic progression.</p>
+<p><a href="./eda.html">View EDA Documentation</a></p>
+<hr>
+</section>
+</section>
+<section id="how-to-use-this-documentation" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-use-this-documentation">How to Use This Documentation</h2>
+<ul>
+<li><strong>Custom Functions</strong>: Refer to the <a href="./funcs.html">Custom Functions</a> section for detailed explanations and usage examples of the functions developed for this project.</li>
+<li><strong>Data Cleaning</strong>: The <a href="./data-cleaning.html">Data Cleaning</a> section provides a step-by-step guide to the data preparation process.</li>
+<li><strong>EDA Process</strong>: The <a href="./eda.html">EDA Process</a> section walks through the exploratory analysis, including visualizations and key findings.</li>
+</ul>
+<hr>
+</section>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<p>The analysis utilizes the following datasets:</p>
+<ul>
+<li><p><strong>COVID-19 Metrics</strong>: Daily confirmed cases, deaths, and recoveries.</p></li>
+<li><p><strong>Economic Data</strong>: State-level GDP and per capita income.</p></li>
+<li><p><strong>Population Data</strong>: State population estimates.</p></li>
+<li><p><strong>Government Response Data</strong>: Stringency indices and policy metrics. 5. <strong>Vaccination Data</strong>: Daily vaccination counts by state.</p></li>
+</ul>
+<hr>
+</section>
+<section id="acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>This project was made possible by the following resources:</p>
+<ul>
+<li><p><strong>R Community</strong>: For providing powerful libraries and tools for data analysis.</p></li>
+<li><p><strong>COVID-19 Data Repositories</strong>: For making pandemic-related data publicly available.</p></li>
+<li><p><strong>Quarto</strong>: For enabling seamless documentation and reporting.</p></li>
+</ul>
+<hr>
+<p>For the complete code and datasets, visit the <a href="https://github.com/Sal-Fakoya/covid19-Analysis-Website/tree/master">GitHub Repository</a>.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

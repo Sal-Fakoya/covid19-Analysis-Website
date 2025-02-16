@@ -1,4 +1,93 @@
 ---
-title: "My Website"
+title: ""
 editor: visual
 ---
+
+## Get Started
+
+To explore the analysis in detail, navigate to the respective sections:
+
+-   [Custom Functions](funcs.qmd)
+
+-   [Data Cleaning](data-cleaning.qmd)
+
+-   [EDA Process](eda.qmd)
+
+## Project Overview
+
+This project focuses on performing **Exploratory Data Analysis (EDA)** on COVID-19 data in the United States. The goal is to analyze trends in confirmed cases, deaths, vaccination rates, and government responses across different states and regions. By leveraging custom functions and a structured data pipeline, this project provides insights into the pandemic's progression and its impact on various demographic and economic factors.
+
+### Key Objectives
+
+1.  **Data Preparation**: Standardize and clean COVID-19 datasets for analysis.
+2.  **Exploratory Analysis**: Visualize trends in infections, deaths, and vaccinations over time.
+3.  **Advanced Insights**: Investigate relationships between state wealth, population, and pandemic outcomes.
+4.  **Government Response**: Evaluate the effectiveness of government policies in mitigating the pandemic.
+
+------------------------------------------------------------------------
+
+## Tools and Technologies
+
+This project is built using the following tools and libraries: - **R** for data analysis and visualization. - **Tidyverse** for data manipulation and cleaning. - **Quarto** for project documentation and reporting. - **Custom Functions** created for automating repetitive tasks and ensuring consistency in analysis.
+
+------------------------------------------------------------------------
+
+## Project Structure
+
+The project is divided into three main sections, each documented in detail:
+
+### 1. Custom Functions
+
+This section documents the custom functions developed for data preparation, analysis, and visualization. These functions are designed to handle tasks such as: - Standardizing state names across datasets. - Analyzing missing values and time spans. - Generating visualizations for confirmed cases, deaths, and vaccination trends.
+
+[View Custom Functions Documentation](funcs.qmd)
+
+### 2. Data Cleaning
+
+This section outlines the data cleaning pipeline, including: - Ingestion and standardization of COVID-19 datasets. - Handling missing values and inconsistencies. - Merging datasets to create a unified analysis-ready dataset.
+
+[View Data Cleaning Documentation](data-cleaning.qmd)
+
+### 3. Exploratory Data Analysis (EDA)
+
+This section details the EDA process, including: - Visualizing trends in infections, deaths, and vaccinations. - Investigating relationships between state wealth, population, and pandemic outcomes. - Evaluating the impact of government responses on pandemic progression.
+
+[View EDA Documentation](eda.qmd)
+
+------------------------------------------------------------------------
+
+## How to Use This Documentation
+
+-   **Custom Functions**: Refer to the [Custom Functions](funcs.qmd) section for detailed explanations and usage examples of the functions developed for this project.
+-   **Data Cleaning**: The [Data Cleaning](data-cleaning.qmd) section provides a step-by-step guide to the data preparation process.
+-   **EDA Process**: The [EDA Process](eda.qmd) section walks through the exploratory analysis, including visualizations and key findings.
+
+------------------------------------------------------------------------
+
+## Data Sources
+
+The analysis utilizes the following datasets:
+
+-    **COVID-19 Metrics**: Daily confirmed cases, deaths, and recoveries.
+
+-   **Economic Data**: State-level GDP and per capita income.
+
+-   **Population Data**: State population estimates.
+
+-   **Government Response Data**: Stringency indices and policy metrics. 5. **Vaccination Data**: Daily vaccination counts by state.
+
+------------------------------------------------------------------------
+
+## Acknowledgments
+
+This project was made possible by the following resources:
+
+-   **R Community**: For providing powerful libraries and tools for data analysis.
+
+-   **COVID-19 Data Repositories**: For making pandemic-related data publicly available.
+
+-   **Quarto**: For enabling seamless documentation and reporting.
+
+------------------------------------------------------------------------
+
+For the complete code and datasets, visit the [GitHub Repository](https://github.com/Sal-Fakoya/covid19-Analysis-Website/tree/master).

@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-11">
 
-<title>Custom Functions – today</title>
+<title>Custom Functions – Covid-19 EDA with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,8 +74,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f3c2ea88cadbcfb37ba28ffa2c97cfc1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ae2d0dcda2edce4ab590422bb373b64f.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-7d6694c7b3d8f5ecf9ec986835a4b683.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-3d3e9f5edd0362804af8ca21528937ae.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,7 +105,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -116,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">today</span>
+    <span class="navbar-title">Covid-19 EDA with R</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -127,21 +126,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-get-started" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Get Started</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-get-started">    
+        <li>
+    <a class="dropdown-item" href="./funcs.html">
+ <span class="dropdown-text">Functions</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./data-cleaning.html">
+ <span class="dropdown-text">Data Cleaning</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./eda.html">
+ <span class="dropdown-text">EDA Process</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./funcs.html" aria-current="page"> 
-<span class="menu-text">Functions</span></a>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Sal-Fakoya/covid19-Analysis-Website/tree/master"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./data-cleaning.html"> 
-<span class="menu-text">Data Cleaning</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./eda.html"> 
-<span class="menu-text">EDA Process</span></a>
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/salamot-fakoya-650325224/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -238,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Description:</strong><br>
 Renames any column containing “state” in its name to “state”. Ensures consistent column naming across different datasets.</p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>renameState <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">rename_with</span>(<span class="sc">~</span> <span class="st">"state"</span>, <span class="fu">contains</span>(<span class="st">"state"</span>))</span>
@@ -261,7 +277,7 @@ Renames any column containing “state” in its name to “state”. Ensures co
 <p><strong>Description:</strong></p>
 <p>Uses Optimal String Alignment (OSA) distance to match state names between datasets and reference list. Helps resolve naming inconsistencies.</p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>matchStates <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">states_base =</span> states_list,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        data,</span>
@@ -326,7 +342,7 @@ Renames any column containing “state” in its name to “state”. Ensures co
 <p><strong>Description:</strong><br>
 Provides missing value analysis with numerical summary and visual representation.</p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>countNA <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">require</span>(tidyverse)</span>
@@ -402,7 +418,7 @@ Provides missing value analysis with numerical summary and visual representation
 <p><strong>Description:</strong></p>
 <p>Shows both absolute counts and population-adjusted percentages for COVID-19 metrics across states for each <code>region.group</code></p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plotConfirmedCasesTotal <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">data =</span> df.main, region.group)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>{</span>
@@ -517,7 +533,7 @@ Provides missing value analysis with numerical summary and visual representation
 <p><strong>Output:</strong></p>
 <p>Dual time series plots of 7-day moving averages for infection cases and deaths.</p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plot7DayAverage <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">data =</span> df.main, region.group, <span class="at">output_dir =</span> <span class="st">"./explore"</span>) </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  {</span>
@@ -597,7 +613,7 @@ Provides missing value analysis with numerical summary and visual representation
 <p><strong>Output:</strong></p>
 <p>Faceted chloropleth map showing variable <code>var</code> evolution across monthly snapshots.</p>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plotCovid19Map_overTime <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">data =</span> df.main, var,</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">output_dir =</span> <span class="st">"./explore"</span>) </span>
@@ -658,7 +674,7 @@ Provides missing value analysis with numerical summary and visual representation
 <section id="plotcovid19indicators_stateleveldatadf.main-state_selection-output_dir.explore" class="level3">
 <h3 class="anchored" data-anchor-id="plotcovid19indicators_stateleveldatadf.main-state_selection-output_dir.explore"><code>plotCovid19Indicators_stateLevel(data=df.main, state_selection, output_dir="./explore")</code></h3>
 <div class="cell">
-<details class="code-fold">
+<details open="" class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plotCovid19Map_overTime <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">data =</span> df.main, var,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">output_dir =</span> <span class="st">"./explore"</span>) </span>
